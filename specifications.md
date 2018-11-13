@@ -29,7 +29,7 @@ To simplify the tasks, we assume the followings:
 * No login is required. The user ID is submitted as a simple HTTP request parameter[^1]
 
 **Important Notice**
-- In your report, please clearly specify the structure of your DynamoDB   tables as I need to create them to test your web app. This includes all   table names, primary hash/partition key + sort key (if any), and any   Seconday Global Index. *** I won't have access to your AWS DynamoDB tables as I don't have your access key so this is a MUST! ***
+- In your report, please clearly specify the structure of your DynamoDB tables as I need to create them to test your web app. This includes all   table names, primary hash/partition key + sort key (if any), and any Seconday Global Index. **I won't have access to your AWS DynamoDB tables as I don't have your access key so this is a MUST !**
 
 # The Tasks
 
