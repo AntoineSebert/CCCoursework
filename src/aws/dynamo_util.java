@@ -7,7 +7,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.*;
 /**
  * Create and hold a DynamoDB client and a mapper for the database
  * @author Antoine/Anthony Sébert
- * */
+ */
 public class dynamo_util {
 	/* ATTRIBUTES */
 		/**
