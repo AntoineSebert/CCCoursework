@@ -1,76 +1,69 @@
 package resource;
 
-import java.util.*;
-
 // Jersey
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
-// AWS
-import com.amazonaws.regions.*;
-import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 
-import aws.dynamo_util.*;
-import aws.Config.*;
-import exception.*;
+import aws.Config;
+import aws.dynamo_util;
+import exception.UserNotFoundException;
 import model.User;
 
 /**
- * Create and hold a DynamoDB client and a mapper for the database
- * @author Antoine/Anthony Sébert
+ * User service
+ * @author	Antoine/Anthony Sébert
  */
-@Path("/city")
+@Path("/user")
 public class User_resource {
 	/**
-	 * This method handles a POST request to the URL "/lab05/api/city" to store a
-	 * City object into DynamoDB.
-	 * @param code
-	 * @param name
-	 * @param longitude
-	 * @param latitude
-	 * @return
+	 * This method handles a POST request to the URL "/user" to store a User object into DynamoDB
+	 * @param	id
+	 * @return	A {@code Response} object with a status describing the success or fail of the creation operation
+	 * @see		dynamo_util
+	 * @see		Config
+	 * @see		User
 	 */
-	public Response addUser(String code, String name, double longitude, double latitude) {
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response add_user(@FormParam("id") String id) {
 		try {
-			// You should:
-			// *** 1. Annotate method to handle POST requests.
-			// *** 2. Set response content-type to plain-text (i.e. MediaType.TEXT_PLAIN).
-			// *** 3. Inject form parameters into method.
-			// *** 4. Use submitted parameters to create a City object.
-			// *** 5. Use DynamoDBMapper to persist City object into DynamoDB.
-
-			// return 201 status code if everything is fine
-			return Response.status(201).entity(code + "/" + name + " (" + longitude + "," + latitude + ") saved sucessfully").build();
+			dynamo_util.get_mapper(Config.REGION, Config.LOCAL_ENDPOINT).save(new User(id));
+			return Response.status(201).entity(id + " saved sucessfully").build();
 		}
-		catch(Exception e) {
-			return Response.status(400).entity("Something went wrong. Parameters accepted: code, name, long, lat").build(); // if the client did something wrong
-		}
+		catch(Exception e) { return Response.status(400).entity("Something went wrong. Parameter accepted: id").build(); }
 	}
 	/**
-	 * This method should handle a GET request to the URL pattern "/lab05/api/city/<code>" to retrieve a city's information and return it as a JSON map.
-	 * @param	code
-	 * @return	The User object retrieved using the given code. This City object should be converted to JSON by Jackson
+	 * This method should handle a GET request to the URL pattern "/user/<code>" to retrieve a user's information and return it as a JSON map
+	 * @param	id
+	 * @return	The {@code User} object retrieved from the database using the given id
+	 * @see		dynamo_util
+	 * @see		Config
+	 * @see		User
 	 */
-	public User retrieveOneCity(String code) {
-		// You should:
-		// *** 1. Annotation method for GET handling.
-		// *** 2. Set response content-type to JSON.
-		// *** 3. Use injection to get city ID/code from the URL path.
-		// *** 4. Use DynamoDBMapper to load City object using city ID/code.
+	@Path("/{id}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public User retrieve_user(@PathParam("id") String id) {
 		// *** 5. Return City object in JSON. Jackson will do the conversion to JSON.
-		// *** Note: If city ID/code cannot be found, you should return an appropriate error.
-		return null; // ***This should be replaced by your code.
+		User user = dynamo_util.get_mapper(Config.REGION, Config.LOCAL_ENDPOINT).load(User.class, id);
+		if(user == null)
+			throw new WebApplicationException(404);
+
+		return user;
 	}
 	/**
-	 * This method handles a GET request to the URL "/lab05/api/city" to retrieve all cities as a JSON list.
-	 * @return
+	 * This method handles a GET request to the URL "/user" to retrieve all users as a JSON list
+	 * @return	A list of all {@code User} objects present in the database
+	 * @see		dynamo_util
+	 * @see		Config
+	 * @see		User
 	 */
-	public Iterable<User> retrieveAllCities() {
-		// You should:
-		// *** 1. Annotation method for GET handling.
-		// *** 2. Set response content-type is JSON.
-		// *** 3. Use DynamoDBMapper to scan and get all cities as a Iterable/List.
-		// *** 4. Return the Iterable/List in JSON. Jackson will do the conversion.
-		return null; // ***This should be replaced by your code.
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Iterable<User> retrieve_all_users() {
+		// *** 5. Return City object in JSON. Jackson will do the conversion to JSON.
+		return dynamo_util.get_mapper(Config.REGION, Config.LOCAL_ENDPOINT).scan(User.class, new DynamoDBScanExpression());
 	}
 }

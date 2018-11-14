@@ -2,7 +2,7 @@ package aws;
 
 /*
  * Hold the database configuration
- * @author Antoine/Anthony Sébert
+ * @author	Antoine/Anthony Sébert
  */
 public class Config {
 	/**
@@ -12,5 +12,9 @@ public class Config {
 	/**
 	 * The webapp URL
 	 */
-		LOCAL_ENDPOINT = "http://localhost:8000";
+		LOCAL_ENDPOINT = "http://localhost:8000",
+	/**
+	 * The DynamoBD table name
+	 */
+		DYNAMODB_TABLE_NAME = "users";
 }
