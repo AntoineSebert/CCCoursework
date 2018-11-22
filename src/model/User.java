@@ -12,8 +12,6 @@ import aws.Config;
 /*
  * Represent an user
  * @author	Antoine/Anthony Sébert
- * 
- * TODO : move the subscribers and subscriptions in the database ?
  */
 @DynamoDBTable(tableName = Config.DYNAMODB_TABLE_NAME)
 public class User {
@@ -134,53 +132,53 @@ public class User {
 		// incrementers
 			/**
 			 * Add a user id to the incoming requests list
-			 * @param	_id	the user id to add
+			 * @param	id	the user id to add
 			 * @return	true if the operation is a success, false otherwise
 			 * @see		#incoming_requests
 			 */
-			public boolean add_incoming_request(String _id) { return incoming_requests.add(_id); }
+			public boolean add_incoming_request(String id) { return incoming_requests.add(id); }
 			/**
 			 * Add a user id to the outgoing requests list
-			 * @param	_id	the user id to add
+			 * @param	id	the user id to add
 			 * @return	true if the operation is a success, false otherwise
 			 * @see		#outgoing_requests
 			 */
-			public boolean add_outgoing_request(String _id) { return outgoing_requests.add(_id); }
+			public boolean add_outgoing_request(String id) { return outgoing_requests.add(id); }
 		// decrementers
 			/**
 			 * Remove a user id from the incoming requests list
-			 * @param	_id	the user id to remove
+			 * @param	id	the user id to remove
 			 * @return	true if the operation is a success, false otherwise
 			 * @see		#incoming_requests
 			 */
-			public boolean reject_incoming_request(String _id) { return incoming_requests.remove(_id); }
+			public boolean reject_incoming_request(String id) { return incoming_requests.remove(id); }
 			/**
 			 * Remove a user id from the outgoing requests list
-			 * @param	_id	the user id to remove
+			 * @param	id	the user id to remove
 			 * @return	true if the operation is a success, false otherwise
 			 * @see		#outgoing_requests
 			 */
-			public boolean outgoing_request_rejected(String _id) { return outgoing_requests.remove(_id); }
+			public boolean outgoing_request_rejected(String id) { return outgoing_requests.remove(id); }
 		// movers
 			/**
 			 * Move a user id from the incoming requests list to the subscribers list
-			 * @param	_id	the user id to move
+			 * @param	id	the user id to move
 			 * @return	true if the operation is a success, false otherwise
 			 * @see		#incoming_requests
 			 * @see		#subscribers
 			 */
-			public boolean accept_incoming_request(String _id) {
-				return subscribers.add(incoming_requests.remove(incoming_requests.indexOf(_id)));
+			public boolean accept_incoming_request(String id) {
+				return subscribers.add(incoming_requests.remove(incoming_requests.indexOf(id)));
 			}
 			/**
 			 * Move a user id from the outgoing requests list to the subscriptions list
-			 * @param	_id	the user id to move
+			 * @param	id	the user id to move
 			 * @return	true if the operation is a success, false otherwise
 			 * @see		#outgoing_requests
 			 * @see		#subscriptions
 			 */
-			public boolean outgoing_request_accepted(String _id) {
-				return subscriptions.add(outgoing_requests.remove(outgoing_requests.indexOf(_id)));
+			public boolean outgoing_request_accepted(String id) {
+				return subscriptions.add(outgoing_requests.remove(outgoing_requests.indexOf(id)));
 			}
 		// other
 			/**

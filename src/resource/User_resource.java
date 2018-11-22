@@ -46,10 +46,9 @@ public class User_resource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public User retrieve_user(@PathParam("id") String id) {
-		// *** 5. Return City object in JSON. Jackson will do the conversion to JSON.
 		User user = dynamo_util.get_mapper(Config.REGION, Config.LOCAL_ENDPOINT).load(User.class, id);
 		if(user == null)
-			throw new WebApplicationException(404);
+			throw new UserNotFoundException(id);
 
 		return user;
 	}
@@ -63,7 +62,6 @@ public class User_resource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Iterable<User> retrieve_all_users() {
-		// *** 5. Return City object in JSON. Jackson will do the conversion to JSON.
 		return dynamo_util.get_mapper(Config.REGION, Config.LOCAL_ENDPOINT).scan(User.class, new DynamoDBScanExpression());
 	}
 }
