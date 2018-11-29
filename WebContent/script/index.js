@@ -22,10 +22,6 @@ function login() {
 			"data": params,
 			"success": function (data) {
 
-				// *** Get token from the reply here!
-				alert("*** Modify login() to extract token from login reply.");
-				var token = "***fix this***"; // *** You will have to modify this line.
-
 				console.log(data);
 
 				sessionStorage.token = token;
@@ -51,10 +47,6 @@ function register() {
 		$.post(url, {
 			"data": params,
 			"success": function (data) {
-
-				// *** Get token from the reply here!
-				alert("*** Modify resiter() to extract token from login reply.");
-				var token = "***fix this***"; // *** You will have to modify this line.
 
 				console.log(data);
 
