@@ -19,9 +19,9 @@ public class Login {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response login(@FormParam("user_id") String user_id) {
 		if(DynamoDB.is_user_present(user_id))
-			return Response.status(200).entity("{\"message\" : \"user connected\"}").build();
+			return Response.status(200).entity("{\"message\" : \"Connection...\"}").build();
 		else
-			return Response.status(404).entity("{\"message\" : \"user not found\"}").build();
+			return Response.status(404).entity("{\"message\" : \"User not found\"}").build();
 	}
 	/**
 	 * Registration service returning JWT token. Note that this service does not use AuthenticationFilter.
@@ -34,9 +34,9 @@ public class Login {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response register(@FormParam("user_id") String user_id) {
 		if(DynamoDB.is_user_present(user_id))
-			return Response.status(409).entity("{\"message\" : \"user already exists\"}").build();
+			return Response.status(409).entity("{\"message\" : \"User already exists\"}").build();
 		return DynamoDB.createUser(user_id) ?
-			Response.status(200).entity("{\"message\" : \"user created\"}").build() :
+			Response.status(200).entity("{\"message\" : \"User created\"}").build() :
 			Response.status(500).entity("{\"message\" : \"Internal server error\"}").build();
 	}
 	/**

@@ -90,9 +90,10 @@ public class DynamoDB {
 		}
 		public static boolean is_user_present(String user_id) {
 			try {
+				get_mapper();
 				Map<String, AttributeValue> where = new HashMap<String, AttributeValue>();
 				where.put("id", new AttributeValue(user_id));
-				get_dynamo_client().getItem("users", where);
+				client.getItem("users", where);
 
 				return true;
 			}
@@ -109,6 +110,7 @@ public class DynamoDB {
 			catch(AmazonClientException ace) {
 				System.err.println("Internal error occured communicating with DynamoDB");
 				System.out.println("Error Message:  " + ace.getMessage());
+				ace.printStackTrace();
 
 				return false;
 			}
@@ -119,9 +121,10 @@ public class DynamoDB {
 		}
 		public static boolean createUser(String user_id) {
 			try {
+				get_mapper();
 				Map<String, AttributeValue> where = new HashMap<String, AttributeValue>();
 				where.put("id", new AttributeValue(user_id));
-				get_dynamo_client().putItem("users", where);
+				client.putItem("users", where);
 
 				return true;
 			}
@@ -132,19 +135,9 @@ public class DynamoDB {
 				System.err.println("AWS Error Code: " + ase.getErrorCode());
 				System.err.println("Error Type:     " + ase.getErrorType());
 				System.err.println("Request ID:     " + ase.getRequestId());
-
-				return false;
-
 			}
-			catch(AmazonClientException ace) {
-				System.err.println("Internal error occured communicating with DynamoDB");
-				System.out.println("Error Message:  " + ace.getMessage());
-
-				return false;
-			}
-			catch(Exception e) {
-				e.printStackTrace();
-				return false;
-			}
+			catch(AmazonClientException ace) { ace.printStackTrace(); }
+			catch(Exception e) { e.printStackTrace(); }
+			finally { return false; }
 		}
 }

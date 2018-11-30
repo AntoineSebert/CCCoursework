@@ -9,21 +9,17 @@ function snackbar(message) {
 function login() {
 	'use strict';
 	if (0 < $("#user_id").val().length) {
-		var url = "api/login",
-			user_id = $("#user_id").val(),
-			params = {
-				"user_id": user_id
-			};
-
-		$.post(url, {
-			"data": params,
-			"success": function (data) {
-				snackbar(":" + answer.message);
-			},
-			"error": function () {
-				$("#user_id").val("");
-				snackbar(":" + answer.message);
-			}
+		$.post('api/login', {
+			user_id: $("#user_id").val()
+		},
+		function() {
+			alert('success');
+		})
+		.done(function(answer) {
+			snackbar(answer.responseJSON.message);
+		})
+		.fail(function(answer) {
+			snackbar(answer.responseJSON.message);
 		});
 	}
 }
@@ -37,13 +33,12 @@ function register() {
 		function() {
 			alert('success');
 		})
-		.done(function(data) {
-			alert(data);
+		.done(function(answer) {
+			snackbar(answer.responseJSON.message);
 		})
-		.fail(function() {
-			snackbar();
-			alert('error');
-		})
+		.fail(function(answer) {
+			snackbar(answer.responseJSON.message);
+		});
 	}
 }
 /*

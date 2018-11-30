@@ -12,7 +12,7 @@ public class Config {
 	/**
 	 * The webapp URL
 	 */
-		LOCAL_ENDPOINT = "http://localhost:8000/",
+		LOCAL_ENDPOINT = "http://localhost:8000",
 	/**
 	 * The DynamoBD table name
 	 */
