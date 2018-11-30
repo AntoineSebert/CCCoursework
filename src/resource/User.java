@@ -29,9 +29,9 @@ public class User {
 	public Response add_user(@FormParam("id") String id) {
 		try {
 			DynamoDB.get_mapper().save(new model.User(id));
-			return Response.status(201).entity(id + " saved sucessfully").build();
+			return Response.status(201).entity("{\"message\" : \"" + id + "\" saved sucessfully\"\"}").build();
 		}
-		catch(Exception e) { return Response.status(400).entity("Something went wrong. Parameter accepted: id").build(); }
+		catch(Exception e) { return Response.status(400).entity("{\"message\" : \"Something went wrong. Parameter accepted: id\"}").build(); }
 	}
 	/**
 	 * This method should handle a GET request to the URL pattern "/user/<code>" to retrieve a user's information and return it as a JSON map

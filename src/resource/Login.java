@@ -40,9 +40,9 @@ public class Login {
 			Response.status(500).entity("{\"message\" : \"Internal server error\"}").build();
 	}
 	/**
-	 * Logout service which is also secured.
+	 * Logout service
 	 */
 	@Path("logout")
 	@POST
-	public void logout() {}
+	public void logout() { Response.status(200).entity("{\"message\" : \"Disconnection\"}").build(); }
 }
