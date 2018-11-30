@@ -27,8 +27,7 @@ public class DynamoDB {
 		private static DynamoDBMapper mapper = null;
 	/* METHODS */
 		/**
-		 * @param	region		The AWS region to connect to. e.g. "eu-west-1". To connect to a local server, use "local"
-		 * @parm	end_point	The URL of the local DynamoDB server. e.g. http://localhost:8000 This parameter is only used if region is specified as "local"
+		 * 
 		 * @return	A DynamoDBMapper object for accessing DynamoDB
 		 */
 		public static DynamoDBMapper get_mapper() {
@@ -48,7 +47,9 @@ public class DynamoDB {
 
 			AmazonDynamoDBClientBuilder builder = AmazonDynamoDBClientBuilder.standard();
 			if(Config.REGION.equals("local"))
-				builder.setEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(Config.REGION, Config.LOCAL_ENDPOINT));
+				builder.setEndpointConfiguration(
+					new AwsClientBuilder.EndpointConfiguration(Config.REGION, Config.LOCAL_ENDPOINT)
+				);
 			else
 				builder.setRegion(Config.REGION);
 
@@ -62,13 +63,17 @@ public class DynamoDB {
 			ArrayList<KeySchemaElement> key_schema = new ArrayList<KeySchemaElement>();
 			key_schema.add(new KeySchemaElement().withAttributeName("id").withKeyType(KeyType.HASH));
 
-			CreateTableRequest request = new CreateTableRequest().withTableName("users").withKeySchema(key_schema).withProvisionedThroughput(
+			CreateTableRequest request = new CreateTableRequest().withTableName("users").withKeySchema(key_schema)
+				.withProvisionedThroughput(
 				new ProvisionedThroughput().withReadCapacityUnits((long) 10).withWriteCapacityUnits((long) 5)
 			);
 			*/
 			/*
 				// PrecipIndex
-				GlobalSecondaryIndex contactsFromIndex = new GlobalSecondaryIndex().withIndexName("ContactsFromIndex").withProvisionedThroughput(new ProvisionedThroughput().withReadCapacityUnits((long) 10).withWriteCapacityUnits((long) 5)).withProjection(new Projection().withProjectionType(ProjectionType.KEYS_ONLY));
+				GlobalSecondaryIndex contactsFromIndex = new GlobalSecondaryIndex()
+					.withIndexName("ContactsFromIndex").withProvisionedThroughput(new ProvisionedThroughput()
+					.withReadCapacityUnits((long) 10).withWriteCapacityUnits((long) 5))
+					.withProjection(new Projection().withProjectionType(ProjectionType.KEYS_ONLY));
 
 				ArrayList<KeySchemaElement> indexKeySchema = new ArrayList<KeySchemaElement>();
 
@@ -80,7 +85,7 @@ public class DynamoDB {
 			*/
 			//request.setAttributeDefinitions(attribute_definitions);
 			//client.createTable(request);
-	
+
 			return client;
 		}
 		public static boolean is_user_present(String user_id) {
@@ -139,6 +144,7 @@ public class DynamoDB {
 			}
 			catch(Exception e) {
 				e.printStackTrace();
-				return false; }
+				return false;
+			}
 		}
 }

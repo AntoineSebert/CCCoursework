@@ -1,5 +1,3 @@
-sessionStorage.removeItem("token");
-
 function snackbar(message) {
 	'use strict';
 	var x = document.getElementById("snackbar");
@@ -17,19 +15,14 @@ function login() {
 				"user_id": user_id
 			};
 
-		$.ajax(url, {
-			"type": "GET",
+		$.post(url, {
 			"data": params,
 			"success": function (data) {
-
-				console.log(data);
-
-				sessionStorage.token = token;
-				snackbar("Logging in.");
+				snackbar(":" + answer.message);
 			},
 			"error": function () {
 				$("#user_id").val("");
-				snackbar("Login failed.");
+				snackbar(":" + answer.message);
 			}
 		});
 	}
@@ -38,30 +31,23 @@ function login() {
 function register() {
 	'use strict';
 	if (0 < $("#user_id").val().length) {
-		var url = "api/register",
-			user_id = $("#user_id").val(),
-			params = {
-				"user_id": user_id
-			};
-
-		$.post(url, {
-			"data": params,
-			"success": function (data) {
-
-				console.log(data);
-
-				sessionStorage.token = token;
-				snackbar("User registered.");
-			},
-			"error": function () {
-				$("#user_id").val("");
-				snackbar("Registration failed.");
-			}
-		});
+		$.post('api/register', {
+			user_id: $("#user_id").val()
+		},
+		function() {
+			alert('success');
+		})
+		.done(function(data) {
+			alert(data);
+		})
+		.fail(function() {
+			snackbar();
+			alert('error');
+		})
 	}
 }
 /*
-// Post a tweet.
+// Post a tweet
 function tweet() {
 	'use strict';
 	var url = "api/tweet", // URL to post tweet
