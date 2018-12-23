@@ -16,5 +16,5 @@ public class Config {
 	/**
 	 * The DynamoBD table name
 	 */
-		DYNAMODB_TABLE_NAME = "users";
+		TABLE_NAME = "1705851_users";
 }

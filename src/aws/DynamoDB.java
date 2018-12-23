@@ -48,14 +48,14 @@ public class DynamoDB {
 			AmazonDynamoDBClientBuilder builder = AmazonDynamoDBClientBuilder.standard();
 			if(Config.REGION.equals("local"))
 				builder.setEndpointConfiguration(
-					new AwsClientBuilder.EndpointConfiguration(Config.REGION, Config.LOCAL_ENDPOINT)
+					new AwsClientBuilder.EndpointConfiguration(Config.LOCAL_ENDPOINT, Config.REGION)
 				);
 			else
 				builder.setRegion(Config.REGION);
 
 			client = builder.build();
 			/*
-			client.deleteTable("users");
+			client.deleteTable(Config.TABLE_NAME);
 
 			ArrayList<AttributeDefinition> attribute_definitions = new ArrayList<AttributeDefinition>();
 			attribute_definitions.add(new AttributeDefinition().withAttributeName("id").withAttributeType("S"));
@@ -63,7 +63,7 @@ public class DynamoDB {
 			ArrayList<KeySchemaElement> key_schema = new ArrayList<KeySchemaElement>();
 			key_schema.add(new KeySchemaElement().withAttributeName("id").withKeyType(KeyType.HASH));
 
-			CreateTableRequest request = new CreateTableRequest().withTableName("users").withKeySchema(key_schema)
+			CreateTableRequest request = new CreateTableRequest().withTableName(Config.TABLE_NAME).withKeySchema(key_schema)
 				.withProvisionedThroughput(
 				new ProvisionedThroughput().withReadCapacityUnits((long) 10).withWriteCapacityUnits((long) 5)
 			);
@@ -93,7 +93,7 @@ public class DynamoDB {
 				get_mapper();
 				Map<String, AttributeValue> where = new HashMap<String, AttributeValue>();
 				where.put("id", new AttributeValue(user_id));
-				client.getItem("users", where);
+				client.getItem(Config.TABLE_NAME, where);
 
 				return true;
 			}
@@ -124,7 +124,7 @@ public class DynamoDB {
 				get_mapper();
 				Map<String, AttributeValue> where = new HashMap<String, AttributeValue>();
 				where.put("id", new AttributeValue(user_id));
-				client.putItem("users", where);
+				client.putItem(Config.TABLE_NAME, where);
 
 				return true;
 			}

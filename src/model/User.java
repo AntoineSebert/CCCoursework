@@ -13,7 +13,7 @@ import aws.Config;
  * Represent an user
  * @author	Antoine/Anthony Sébert
  */
-@DynamoDBTable(tableName = Config.DYNAMODB_TABLE_NAME)
+@DynamoDBTable(tableName = Config.TABLE_NAME)
 public class User {
 	/* ATTRIBUTES */
 		/**

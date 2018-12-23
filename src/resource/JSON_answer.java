@@ -3,7 +3,6 @@
  */
 package resource;
 
-import com.alibaba.fastjson.JSON;
 import javax.ws.rs.core.*;
 
 /**
@@ -12,6 +11,6 @@ import javax.ws.rs.core.*;
  */
 public class JSON_answer {
 	public static Response generate(int status_code, String payload) {
-		return Response.status(status_code).entity(JSON.toJSONString(payload)).build();
+		return Response.status(status_code).entity(payload).build();
 	}
 }
